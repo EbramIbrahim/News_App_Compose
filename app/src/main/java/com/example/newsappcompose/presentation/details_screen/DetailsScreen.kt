@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -24,17 +25,23 @@ import com.example.newsappcompose.R
 import com.example.newsappcompose.domain.model.Article
 import com.example.newsappcompose.presentation.common.shareNews
 import com.example.newsappcompose.presentation.state_event.NewsEvent
+import com.example.newsappcompose.presentation.state_event.NewsState
 
 
 @Composable
 fun DetailsScreen(
     article: Article?,
     onEvent: (NewsEvent) -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    state: NewsState
 ) {
 
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+
+    LaunchedEffect(key1 = true) {
+        onEvent(NewsEvent.ReadBookMark)
+    }
 
 
     Column(
@@ -53,8 +60,15 @@ fun DetailsScreen(
                 context.shareNews(article?.url ?: "")
             },
             onBookMarkClick = {
-                onEvent(NewsEvent.SaveNews(article!!))
-            }
+                if (state.isBookMarked) {
+                    onEvent(NewsEvent.DeleteNews(article!!))
+                    onEvent(NewsEvent.RemoveBookMark)
+                } else {
+                    onEvent(NewsEvent.SaveNews(article!!))
+                    onEvent(NewsEvent.SaveBookMark)
+                }
+            },
+            state = state
         )
 
 

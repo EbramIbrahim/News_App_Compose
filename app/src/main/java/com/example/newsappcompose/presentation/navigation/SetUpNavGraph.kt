@@ -40,7 +40,10 @@ fun SetUpNavGraph(
         }
 
         composable(route = Screens.SearchScreen.route) {
-            SearchScreen(state = state, onEvent = onEvent, navigate = { navHostController.navigate(it) })
+            SearchScreen(
+                state = state,
+                onEvent = onEvent,
+                navigate = { navHostController.navigate(it) })
         }
 
         composable(
@@ -48,9 +51,13 @@ fun SetUpNavGraph(
         ) {
             val article =
                 navHostController.previousBackStackEntry?.savedStateHandle?.get<Article>("article")
-            DetailsScreen(article = article, onEvent = onEvent) {
+            DetailsScreen(
+                article = article,
+                onEvent = onEvent,
+                state = state,
+                onNavigateUp = { navHostController.navigateUp() }
+            )
 
-            }
         }
 
         composable(route = Screens.BookMarkScreen.route) {
@@ -58,7 +65,6 @@ fun SetUpNavGraph(
         }
 
     }
-
 
 
 }

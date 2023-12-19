@@ -10,6 +10,7 @@ data class NewsState(
     val articles: Flow<PagingData<Article>> = emptyFlow(),
     val articleEntities: List<Article> = emptyList(),
     val searchQuery: String = "",
+    val isBookMarked: Boolean = false
 )
 
 

@@ -14,10 +14,12 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.newsappcompose.data.repository.NewsRepositoryImpl
 import com.example.newsappcompose.domain.model.BottomNavItem
 import com.example.newsappcompose.presentation.NewsViewModel
 import com.example.newsappcompose.presentation.common.BottomNavigation

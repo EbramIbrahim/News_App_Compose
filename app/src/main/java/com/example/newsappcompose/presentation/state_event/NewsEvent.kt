@@ -12,5 +12,8 @@ sealed interface NewsEvent {
     class SaveNews(val article: Article): NewsEvent
     class DeleteNews(val article: Article): NewsEvent
     object GetAllArticles: NewsEvent
+    object ReadBookMark: NewsEvent
+    object SaveBookMark: NewsEvent
+    object RemoveBookMark: NewsEvent
 
 }

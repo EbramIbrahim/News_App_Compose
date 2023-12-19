@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import com.example.newsappcompose.R
+import com.example.newsappcompose.presentation.state_event.NewsState
 
 
 @Composable
@@ -20,6 +21,7 @@ fun DetailsTopBar(
     onBrowseClick: () -> Unit,
     onShareClick: () -> Unit,
     onBookMarkClick: () -> Unit,
+    state: NewsState
 ) {
 
     TopAppBar(
@@ -49,8 +51,10 @@ fun DetailsTopBar(
                 )
             }
             IconButton(onClick = onBookMarkClick) {
+
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_filled_bookmark),
+                    painter = if (state.isBookMarked) painterResource(id = R.drawable.ic_filled_bookmark)
+                    else painterResource(id = R.drawable.ic_border_bookmark),
                     contentDescription = null
                 )
             }

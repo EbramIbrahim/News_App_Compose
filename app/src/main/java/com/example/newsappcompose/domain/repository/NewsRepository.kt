@@ -11,10 +11,12 @@ interface NewsRepository {
     fun readUserEntry(): Flow<Boolean>
      fun getNews(sources: List<String>): Flow<PagingData<Article>>
      fun searchNews(sources: List<String>, query: String): Flow<PagingData<Article>>
-
     suspend fun addArticle(article: Article)
     suspend fun deleteArticle(article: Article)
     fun getAllArticles(): Flow<List<Article>>
+    suspend fun bookmark()
+    suspend fun removeBookMark()
+    fun readBookMark(): Flow<Boolean>
 
 }
 

@@ -9,7 +9,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.newsappcompose.data.local.NewsDao
 import com.example.newsappcompose.data.local.NewsDatabase
 import com.example.newsappcompose.data.paging.NewsPaginationSource
 import com.example.newsappcompose.data.paging.SearchNewsPagingSource
@@ -76,12 +75,31 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getAllArticles(): Flow<List<Article>> {
         return newsDao.newsDao.getAllArticles()
     }
+
+    override suspend fun bookmark() {
+        context.datastore.edit { setting ->
+            setting[PreferencesKey.bookmark] = true
+        }
+    }
+
+    override fun readBookMark(): Flow<Boolean> {
+        return context.datastore.data.map { preferences ->
+            preferences[PreferencesKey.bookmark] ?: false
+        }
+    }
+
+    override suspend fun removeBookMark() {
+        context.datastore.edit { setting ->
+            setting[PreferencesKey.bookmark] = false
+        }
+    }
 }
 
 private val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = USER_SETTING)
 
 private object PreferencesKey {
     val userEntry = booleanPreferencesKey(name = USER_ENTRY)
+    val bookmark = booleanPreferencesKey(name = "BOOK_MARK")
 }
 
 

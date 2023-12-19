@@ -70,11 +70,25 @@ class NewsViewModel @Inject constructor(
             is NewsEvent.SaveNews -> {
                 insertArticle(event.article)
             }
+
             is NewsEvent.DeleteNews -> {
                 deleteArticle(event.article)
             }
+
             NewsEvent.GetAllArticles -> {
                 getAllArticles()
+            }
+
+            NewsEvent.ReadBookMark -> {
+                readBookMark()
+            }
+
+            NewsEvent.SaveBookMark -> {
+                saveBookMark()
+            }
+
+            NewsEvent.RemoveBookMark -> {
+                removeBookMark()
             }
         }
     }
@@ -132,7 +146,22 @@ class NewsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun saveBookMark() = viewModelScope.launch {
+        useCase.saveBookMark()
+    }
 
+    private fun readBookMark() {
+        viewModelScope.launch {
+            useCase.readBookMarkUseCase().onEach { isBookMarked ->
+                _newsState.update { it.copy(isBookMarked = isBookMarked) }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+
+    private fun removeBookMark() = viewModelScope.launch {
+        useCase.removeBookMarkUseCase()
+    }
 
 
 }

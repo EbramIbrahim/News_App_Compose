@@ -10,9 +10,12 @@ import com.example.newsappcompose.domain.usecase.AllUseCase
 import com.example.newsappcompose.domain.usecase.local_usecase.AddArticleUseCase
 import com.example.newsappcompose.domain.usecase.local_usecase.DeleteArticleUseCase
 import com.example.newsappcompose.domain.usecase.local_usecase.GetAllArticleUseCase
+import com.example.newsappcompose.domain.usecase.local_usecase.ReadBookMarkUseCase
 import com.example.newsappcompose.domain.usecase.remote_usecase.GetNewsUseCase
-import com.example.newsappcompose.domain.usecase.remote_usecase.ReadUserEntryUseCase
-import com.example.newsappcompose.domain.usecase.remote_usecase.SaveUserEntryUseCase
+import com.example.newsappcompose.domain.usecase.local_usecase.ReadUserEntryUseCase
+import com.example.newsappcompose.domain.usecase.local_usecase.RemoveBookMarkUseCase
+import com.example.newsappcompose.domain.usecase.local_usecase.SaveBookMarkUseCase
+import com.example.newsappcompose.domain.usecase.local_usecase.SaveUserEntryUseCase
 import com.example.newsappcompose.domain.usecase.remote_usecase.SearchNewsUseCase
 import com.example.newsappcompose.utils.Constant.BASE_URL
 import dagger.Module
@@ -27,12 +30,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(SingletonComponent::class) // this decide about the hole life time
 object NewsModule {
 
 
     @Provides
-    @Singleton
+    @Singleton // this decide about how many instance we need
     fun provideOkHttpClientInstance(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -95,6 +98,9 @@ object NewsModule {
             addArticleUseCase = AddArticleUseCase(newsRepository),
             deleteArticleUseCase = DeleteArticleUseCase(newsRepository),
             getAllArticleUseCase = GetAllArticleUseCase(newsRepository),
+            saveBookMark = SaveBookMarkUseCase(newsRepository),
+            readBookMarkUseCase = ReadBookMarkUseCase(newsRepository),
+            removeBookMarkUseCase = RemoveBookMarkUseCase(newsRepository)
         )
     }
 
